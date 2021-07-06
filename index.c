@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdbool.h>
 
 #define GRID_SIZE 4
 #define LOWER 0
@@ -17,10 +18,10 @@ void parity_check_2(int matrix[GRID_SIZE][GRID_SIZE]);
 void parity_check_3(int matrix[GRID_SIZE][GRID_SIZE]);
 void parity_check_4(int matrix[GRID_SIZE][GRID_SIZE]);
 
-int * error_check_1(int matrix[GRID_SIZE][GRID_SIZE]);
-int * error_check_2(int matrix[GRID_SIZE][GRID_SIZE]);
-int * error_check_3(int matrix[GRID_SIZE][GRID_SIZE]);
-int * error_check_4(int matrix[GRID_SIZE][GRID_SIZE]);
+int error_check_1(int matrix[GRID_SIZE][GRID_SIZE]);
+int error_check_2(int matrix[GRID_SIZE][GRID_SIZE]);
+int error_check_3(int matrix[GRID_SIZE][GRID_SIZE]);
+int error_check_4(int matrix[GRID_SIZE][GRID_SIZE]);
 
 int main()
 {
@@ -93,19 +94,63 @@ void parity_check(int matrix[GRID_SIZE][GRID_SIZE])
 
 int error_check(int matrix[GRID_SIZE][GRID_SIZE])
 {
-	int * sus_array_1 = error_check_1(matrix);
-	int * sus_array_2 = error_check_2(matrix);
-	int * sus_array_3 = error_check_3(matrix);
-	int * sus_array_4 = error_check_4(matrix);
+	int error_X, error_Y;
+	int error_location[2];
+	int sus_1 = error_check_1(matrix);
+	int sus_2 = error_check_2(matrix);
+	int sus_3 = error_check_3(matrix);
+	int sus_4 = error_check_4(matrix);
 
-	printf("(%i, %i)\n", sus_array_1[0], sus_array_1[1]);
-	printf("(%i, %i)\n", sus_array_2[0], sus_array_2[1]);
-	printf("(%i, %i)\n", sus_array_3[0], sus_array_3[1]);
-	printf("(%i, %i)\n", sus_array_4[0], sus_array_4[1]);
+	if (sus_1)
+	{
+		if (sus_2)
+		{
+			error_X = 3;
+		}
+		else if (!sus_2)
+		{
+			error_X = 1;
+		};
+	}
+	else if (!sus_1)
+	{
+		if (sus_2)
+		{
+			error_X = 2;
+		}
+		else if (!sus_2)
+		{
+			error_X = -1;
+		};
+	};
+
+	if (sus_3)
+	{
+		if (sus_4)
+		{
+			error_Y = 3;
+		}
+		else if (!sus_4)
+		{
+			error_Y = 1;
+		};
+	}
+	else if (!sus_3)
+	{
+		if (sus_4)
+		{
+			error_Y = 2;
+		}
+		else if (!sus_4)
+		{
+			error_Y = -1;
+		};
+	};
+
+	printf("%i, %i\n", error_Y, error_X);
 
 	return 0;
 };
-
 
 void parity_check_1(int matrix[GRID_SIZE][GRID_SIZE])
 {
@@ -239,8 +284,7 @@ void parity_check_4(int matrix[GRID_SIZE][GRID_SIZE])
 	};
 };
 
-
-int * error_check_1(int matrix[GRID_SIZE][GRID_SIZE])
+int error_check_1(int matrix[GRID_SIZE][GRID_SIZE])
 {
 	int counter = 0;
 	int col_1[GRID_SIZE], col_3[GRID_SIZE];
@@ -265,17 +309,15 @@ int * error_check_1(int matrix[GRID_SIZE][GRID_SIZE])
 
 	if ((counter % 2) != 0)
 	{
-		static int sus[2] = {1, 3};
-		return sus;
+		return true;
 	}
 	else
 	{
-		static int sus[2] = {-1, -1};
-		return sus;
+		return false;
 	};
 };
 
-int * error_check_2(int matrix[GRID_SIZE][GRID_SIZE])
+int error_check_2(int matrix[GRID_SIZE][GRID_SIZE])
 {
 	int counter = 0;
 	int col_2[GRID_SIZE], col_3[GRID_SIZE];
@@ -300,17 +342,15 @@ int * error_check_2(int matrix[GRID_SIZE][GRID_SIZE])
 
 	if ((counter % 2) != 0)
 	{
-		static int sus[2] = {2, 3};
-		return sus;
+		return true;
 	}
 	else
 	{
-		static int sus[2] = {-1, -1};
-		return sus;
+		return false;
 	};
 };
 
-int * error_check_3(int matrix[GRID_SIZE][GRID_SIZE])
+int error_check_3(int matrix[GRID_SIZE][GRID_SIZE])
 {
 	int counter = 0;
 	int row_1[GRID_SIZE], row_3[GRID_SIZE];
@@ -335,17 +375,15 @@ int * error_check_3(int matrix[GRID_SIZE][GRID_SIZE])
 
 	if ((counter % 2) != 0)
 	{
-		static int sus[2] = {1, 3};
-		return sus;
+		return true;
 	}
 	else
 	{
-		static int sus[2] = {-1, -1};
-		return sus;
+		return false;
 	};
 };
 
-int * error_check_4(int matrix[GRID_SIZE][GRID_SIZE])
+int error_check_4(int matrix[GRID_SIZE][GRID_SIZE])
 {
 	int counter = 0;
 	int row_2[GRID_SIZE], row_3[GRID_SIZE];
@@ -370,12 +408,10 @@ int * error_check_4(int matrix[GRID_SIZE][GRID_SIZE])
 
 	if ((counter % 2) != 0)
 	{
-		static int sus[2] = {2, 3};
-		return sus;
+		return true;
 	}
 	else
 	{
-		static int sus[2] = {-1, -1};
-		return sus;
+		return false;
 	};
 };
