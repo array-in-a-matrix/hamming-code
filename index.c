@@ -100,6 +100,7 @@ void error_check(int matrix[GRID_SIZE][GRID_SIZE])
 	error_check_4(matrix);
 };
 
+
 void parity_check_1(int matrix[GRID_SIZE][GRID_SIZE])
 {
 	int counter = 0;
@@ -231,6 +232,7 @@ void parity_check_4(int matrix[GRID_SIZE][GRID_SIZE])
 		matrix[2][0] = 1;
 	};
 };
+
 
 void error_check_1(int matrix[GRID_SIZE][GRID_SIZE])
 {
