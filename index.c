@@ -9,6 +9,8 @@
 int random_number(int lower, int upper);
 void print_matrix(int matrix[GRID_SIZE][GRID_SIZE]);
 void induce_noise(int matrix[GRID_SIZE][GRID_SIZE]);
+void parity_check(int matrix[GRID_SIZE][GRID_SIZE]);
+void error_check(int matrix[GRID_SIZE][GRID_SIZE]);
 
 void parity_check_1(int matrix[GRID_SIZE][GRID_SIZE]);
 void parity_check_2(int matrix[GRID_SIZE][GRID_SIZE]);
@@ -19,7 +21,6 @@ void error_check_1(int matrix[GRID_SIZE][GRID_SIZE]);
 void error_check_2(int matrix[GRID_SIZE][GRID_SIZE]);
 void error_check_3(int matrix[GRID_SIZE][GRID_SIZE]);
 void error_check_4(int matrix[GRID_SIZE][GRID_SIZE]);
-
 
 int main()
 {
@@ -32,10 +33,7 @@ int main()
 		{1, 0, 1, 1}};
 
 	print_matrix(message);
-	parity_check_1(message);
-	parity_check_2(message);
-	parity_check_3(message);
-	parity_check_4(message);
+	parity_check(message);
 	printf("\n");
 	print_matrix(message);
 	printf("\n");
@@ -45,10 +43,7 @@ int main()
 	print_matrix(message);
 	printf("\n");
 	printf("\n");
-	error_check_1(message);
-	error_check_2(message);
-	error_check_3(message);
-	error_check_4(message);
+	error_check(message);
 
 	return 0;
 };
@@ -89,6 +84,21 @@ void induce_noise(int matrix[GRID_SIZE][GRID_SIZE])
 	};
 };
 
+void parity_check(int matrix[GRID_SIZE][GRID_SIZE])
+{
+	parity_check_1(matrix);
+	parity_check_2(matrix);
+	parity_check_3(matrix);
+	parity_check_4(matrix);
+};
+
+void error_check(int matrix[GRID_SIZE][GRID_SIZE])
+{
+	error_check_1(matrix);
+	error_check_2(matrix);
+	error_check_3(matrix);
+	error_check_4(matrix);
+};
 
 void parity_check_1(int matrix[GRID_SIZE][GRID_SIZE])
 {
@@ -222,8 +232,8 @@ void parity_check_4(int matrix[GRID_SIZE][GRID_SIZE])
 	};
 };
 
-
-void error_check_1(int matrix[GRID_SIZE][GRID_SIZE]){
+void error_check_1(int matrix[GRID_SIZE][GRID_SIZE])
+{
 	int counter = 0;
 	int col_1[GRID_SIZE], col_3[GRID_SIZE];
 
@@ -245,14 +255,18 @@ void error_check_1(int matrix[GRID_SIZE][GRID_SIZE]){
 		};
 	};
 
-	if((counter % 2) != 0){
+	if ((counter % 2) != 0)
+	{
 		printf("Error in col 1 or col 3\n");
-	}else{
+	}
+	else
+	{
 		printf("Message is unharmed.\n");
 	};
 };
 
-void error_check_2(int matrix[GRID_SIZE][GRID_SIZE]){
+void error_check_2(int matrix[GRID_SIZE][GRID_SIZE])
+{
 	int counter = 0;
 	int col_2[GRID_SIZE], col_3[GRID_SIZE];
 
@@ -274,14 +288,18 @@ void error_check_2(int matrix[GRID_SIZE][GRID_SIZE]){
 		};
 	};
 
-	if((counter % 2) != 0){
+	if ((counter % 2) != 0)
+	{
 		printf("Error in col 2 or col 3\n");
-	}else{
+	}
+	else
+	{
 		printf("Message is unharmed.\n");
 	};
 };
 
-void error_check_3(int matrix[GRID_SIZE][GRID_SIZE]){
+void error_check_3(int matrix[GRID_SIZE][GRID_SIZE])
+{
 	int counter = 0;
 	int row_1[GRID_SIZE], row_3[GRID_SIZE];
 
@@ -302,14 +320,18 @@ void error_check_3(int matrix[GRID_SIZE][GRID_SIZE]){
 			counter++;
 		};
 	};
-	if((counter % 2) != 0){
+	if ((counter % 2) != 0)
+	{
 		printf("Error in row 1 or row 3\n");
-	}else{
+	}
+	else
+	{
 		printf("Message is unharmed.\n");
 	};
 };
 
-void error_check_4(int matrix[GRID_SIZE][GRID_SIZE]){
+void error_check_4(int matrix[GRID_SIZE][GRID_SIZE])
+{
 	int counter = 0;
 	int row_2[GRID_SIZE], row_3[GRID_SIZE];
 
@@ -331,9 +353,12 @@ void error_check_4(int matrix[GRID_SIZE][GRID_SIZE]){
 		};
 	};
 
-	if((counter % 2) != 0){
+	if ((counter % 2) != 0)
+	{
 		printf("Error in row 2 or row 3\n");
-	}else{
+	}
+	else
+	{
 		printf("Message is unharmed.\n");
 	};
 };
