@@ -8,24 +8,38 @@
 
 void print_matrix(int matrix[GRID_SIZE][GRID_SIZE]);
 int random_number(int lower, int upper);
-void introduce_noise(int matrix[GRID_SIZE][GRID_SIZE]);
+void induce_noise(int matrix[GRID_SIZE][GRID_SIZE]);
+void parity_check_1(int matrix[GRID_SIZE][GRID_SIZE]);
+void parity_check_2(int matrix[GRID_SIZE][GRID_SIZE]);
+void parity_check_3(int matrix[GRID_SIZE][GRID_SIZE]);
+void parity_check_4(int matrix[GRID_SIZE][GRID_SIZE]);
 
 int main()
 {
 	srand(time(0));
 
 	int message[GRID_SIZE][GRID_SIZE] = {
-		{  1,  1,  0,  1},
-		{  0,  1,  0,  0},
-		{  1,  1,  0,  1},
-		{  1,  0,  1,  1}};
-	 // {  0,  1,  2,  3},
-	 // {  4,  5,  6,  7},
-	 // {  8,  9, 10, 11},
-     // { 12, 13, 14, 15}};
+		{1, 0, 0, 1},
+		{0, 1, 0, 0},
+		{0, 1, 0, 1},
+		{1, 0, 1, 1}};
 
 	print_matrix(message);
-	introduce_noise(message);
+	printf("\n");
+	parity_check_1(message);
+	printf("\n");
+	print_matrix(message);
+	printf("\n");
+	parity_check_2(message);
+	printf("\n");
+	print_matrix(message);
+	printf("\n");
+	parity_check_3(message);
+	printf("\n");
+	print_matrix(message);
+	printf("\n");
+	parity_check_4(message);
+	printf("\n");
 	print_matrix(message);
 
 	return 0;
@@ -49,14 +63,14 @@ int random_number(int lower, int upper)
 	return num;
 };
 
-void introduce_noise(int matrix[GRID_SIZE][GRID_SIZE])
+void induce_noise(int matrix[GRID_SIZE][GRID_SIZE])
 {
 	int random_X = random_number(LOWER, UPPER);
 	int random_Y = random_number(LOWER, UPPER);
 
 	printf("\n    (Y, X)");
 	printf("\n    (%i, %i)\n\n", random_Y, random_X);
-	
+
 	if (matrix[random_Y][random_X] == 0)
 	{
 		matrix[random_Y][random_X] = 1;
@@ -67,23 +81,142 @@ void introduce_noise(int matrix[GRID_SIZE][GRID_SIZE])
 	};
 };
 
-// void parity_check_1(int matrix[GRID_SIZE][GRID_SIZE]){
-// 	int parity_bit = matrix[0][1];
-	
-// };
+void parity_check_1(int matrix[GRID_SIZE][GRID_SIZE])
+{
+	int counter = 0;
+	int col_1[GRID_SIZE], col_3[GRID_SIZE];
 
-// void parity_check_2(int matrix[GRID_SIZE][GRID_SIZE]){
-// 	int parity_bit = matrix[0][2];
-	
-// };
+	for (int i = 0; i < GRID_SIZE; i++)
+	{
+		col_1[i] = matrix[i][1];
+		col_3[i] = matrix[i][3];
+	};
 
-// void parity_check_3(int matrix[GRID_SIZE][GRID_SIZE]){
-// 	int parity_bit = matrix[1][0];
-	
-// };
+	for (int i = 0; i < GRID_SIZE; i++)
+	{
+		if (col_1[i] == 1)
+		{
+			counter++;
+		};
+		if (col_3[i] == 1)
+		{
+			counter++;
+		};
+	};
 
-// void parity_check_4(int matrix[GRID_SIZE][GRID_SIZE]){
-// 	int parity_bit = matrix[2][0];
-	
-// };
+	if ((counter % 2) == 0)
+	{
+		printf("even number of 1s\n");
+		matrix[0][1] = 0;
+	}
+	else
+	{
+		printf("odd number of 1s\n");
+		matrix[0][1] = 1;
+	};
+};
 
+void parity_check_2(int matrix[GRID_SIZE][GRID_SIZE])
+{
+	int counter = 0;
+	int col_2[GRID_SIZE], col_3[GRID_SIZE];
+
+	for (int i = 0; i < GRID_SIZE; i++)
+	{
+		col_2[i] = matrix[i][2];
+		col_3[i] = matrix[i][3];
+	};
+
+	for (int i = 0; i < GRID_SIZE; i++)
+	{
+		if (col_2[i] == 1)
+		{
+			counter++;
+		};
+		if (col_3[i] == 1)
+		{
+			counter++;
+		};
+	};
+
+	if ((counter % 2) == 0)
+	{
+		printf("even number of 1s\n");
+		matrix[0][2] = 0;
+	}
+	else
+	{
+		printf("odd number of 1s\n");
+		matrix[0][2] = 1;
+	};
+};
+
+void parity_check_3(int matrix[GRID_SIZE][GRID_SIZE])
+{
+	int counter = 0;
+	int row_1[GRID_SIZE], row_3[GRID_SIZE];
+
+	for (int i = 0; i < GRID_SIZE; i++)
+	{
+		row_1[i] = matrix[1][i];
+		row_3[i] = matrix[3][i];
+	};
+
+	for (int i = 0; i < GRID_SIZE; i++)
+	{
+		if (row_1[i] == 1)
+		{
+			counter++;
+		};
+		if (row_3[i] == 1)
+		{
+			counter++;
+		};
+	};
+
+	if ((counter % 2) == 0)
+	{
+		printf("even number of 1s\n");
+		matrix[1][0] = 0;
+	}
+	else
+	{
+		printf("odd number of 1s\n");
+		matrix[1][0] = 1;
+	};
+};
+
+void parity_check_4(int matrix[GRID_SIZE][GRID_SIZE])
+{
+	int counter = 0;
+	int row_2[GRID_SIZE], row_3[GRID_SIZE];
+
+	for (int i = 0; i < GRID_SIZE; i++)
+	{
+		row_2[i] = matrix[2][i];
+		row_3[i] = matrix[3][i];
+	};
+
+	for (int i = 0; i < GRID_SIZE; i++)
+	{
+		if (row_2[i] == 1)
+		{
+			counter++;
+		};
+		if (row_3[i] == 1)
+		{
+			counter++;
+		};
+	};
+
+	if ((counter % 2) == 0)
+	{
+		printf("even number of 1s\n");
+		matrix[2][0] = 0;
+	}
+	else
+	{
+		printf("odd number of 1s\n");
+		matrix[2][0] = 1;
+	};
+};
