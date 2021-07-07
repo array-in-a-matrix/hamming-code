@@ -6,12 +6,13 @@
 #define GRID_SIZE 4
 #define LOWER 0
 #define UPPER 3
+#define TWO 2
 
 int random_number(int lower, int upper);
 void print_matrix(int matrix[GRID_SIZE][GRID_SIZE]);
 void induce_noise(int matrix[GRID_SIZE][GRID_SIZE]);
 void parity_check(int matrix[GRID_SIZE][GRID_SIZE]);
-int error_check(int matrix[GRID_SIZE][GRID_SIZE]);
+int error_check(int matrix[GRID_SIZE][GRID_SIZE], int array[TWO]);
 
 void parity_check_1(int matrix[GRID_SIZE][GRID_SIZE]);
 void parity_check_2(int matrix[GRID_SIZE][GRID_SIZE]);
@@ -26,7 +27,7 @@ int error_check_4(int matrix[GRID_SIZE][GRID_SIZE]);
 int main()
 {
 	srand(time(0));
-
+	int error_location[2];
 	int message[GRID_SIZE][GRID_SIZE] = {
 		{1, 0, 0, 1},
 		{0, 1, 0, 0},
@@ -38,13 +39,21 @@ int main()
 	printf("\n");
 	print_matrix(message);
 	printf("\n");
-	printf("\n");
 	printf("Message now corrupt!\n");
 	induce_noise(message);
 	print_matrix(message);
 	printf("\n");
-	printf("\n");
-	error_check(message);
+	error_check(message, error_location);
+
+	if (error_location[1] == 0 && error_location[0] == 0)
+	{
+		printf("No error or error location: (%i, %i).\n", error_location[0], error_location[1]);
+	}
+	else if (!(error_location[1] == 0 && error_location[0] == 0))
+	{
+		printf("Error location: (%i, %i).\n", error_location[0], error_location[1]);
+	};
+
 	return 0;
 };
 
@@ -92,10 +101,9 @@ void parity_check(int matrix[GRID_SIZE][GRID_SIZE])
 	parity_check_4(matrix);
 };
 
-int error_check(int matrix[GRID_SIZE][GRID_SIZE])
+int error_check(int matrix[GRID_SIZE][GRID_SIZE], int array[TWO])
 {
 	int error_X, error_Y;
-	int error_location[2];
 	int sus_1 = error_check_1(matrix);
 	int sus_2 = error_check_2(matrix);
 	int sus_3 = error_check_3(matrix);
@@ -120,7 +128,7 @@ int error_check(int matrix[GRID_SIZE][GRID_SIZE])
 		}
 		else if (!sus_2)
 		{
-			error_X = -1;
+			error_X = 0;
 		};
 	};
 
@@ -143,11 +151,13 @@ int error_check(int matrix[GRID_SIZE][GRID_SIZE])
 		}
 		else if (!sus_4)
 		{
-			error_Y = -1;
+			error_Y = 0;
 		};
 	};
 
-	printf("%i, %i\n", error_Y, error_X);
+	array[0] = error_Y;
+	array[1] = error_X;
+	//TODO: eliminate the need for error_Y && error_X by just using an array
 
 	return 0;
 };
